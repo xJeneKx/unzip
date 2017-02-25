@@ -22,9 +22,7 @@
     "fstream": ">= 0.1.30 < 1",
     "pullstream": ">= 0.4.1 < 1",
     "binary": ">= 0.3.0 < 1",
-    "readable-stream": "~1.0.31",
-    "setimmediate": ">= 1.0.1 < 2",
-    "match-stream": ">= 0.0.2 < 1"
+    "readable-stream": "~1.0.31"
   },
   "devDependencies": {
     "tap": ">= 0.3.0 < 1",
