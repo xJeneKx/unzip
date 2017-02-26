@@ -64,6 +64,12 @@ fs.createReadStream('path/to/archive.zip')
   }));
 ```
 
+### Extract to a directory
+```javascript
+fs.createReadStream('path/to/archive.zip').pipe(unzip.Extract({ path: 'output/path' }));
+```
+
+Extract emits the 'close' event once the zip's contents have been fully extracted to disk.
 
 ## License
 
