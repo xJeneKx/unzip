@@ -1,25 +1,19 @@
-# unzip [![Build Status](https://travis-ci.org/EvanOxfeld/node-unzip.png)](https://travis-ci.org/EvanOxfeld/node-unzip)
+# unzip-stream
 
 Streaming cross-platform unzip tool written in node.js.
 
-Unzip provides simple APIs similar to [node-tar](https://github.com/isaacs/node-tar) for parsing and extracting zip files.
-There are no added compiled dependencies - inflation is handled by node.js's built in zlib support.  Unzip is also an
-example use case of [node-pullstream](https://github.com/EvanOxfeld/node-pullstream).
+This package is based on [unzip](https://github.com/EvanOxfeld/node-unzip) and provides simple APIs similar to [node-tar](https://github.com/isaacs/node-tar) for parsing and extracting zip files.
+There are no added compiled dependencies - inflation is handled by node.js's built in zlib support.
+
+Please note that the zip file format isn't really meant to be processed by streaming, though this library should succeed in most cases, if you do have complete zip file available, you should consider using other libraries which read zip files from the end - as originally intended.
 
 ## Installation
 
 ```bash
-$ npm install unzip
+$ npm install unzip-stream
 ```
 
 ## Quick Examples
-
-### Extract to a directory
-```javascript
-fs.createReadStream('path/to/archive.zip').pipe(unzip.Extract({ path: 'output/path' }));
-```
-
-Extract emits the 'close' event once the zip's contents have been fully extracted to disk.
 
 ### Parse zip file contents
 
@@ -32,10 +26,10 @@ contents. Otherwise you risk running out of memory.
 fs.createReadStream('path/to/archive.zip')
   .pipe(unzip.Parse())
   .on('entry', function (entry) {
-    var fileName = entry.path;
+    var filePath = entry.path;
     var type = entry.type; // 'Directory' or 'File'
     var size = entry.size;
-    if (fileName === "this IS the file I'm looking for") {
+    if (filePath === "this IS the file I'm looking for") {
       entry.pipe(fs.createWriteStream('output/path'));
     } else {
       entry.autodrain();
@@ -43,21 +37,39 @@ fs.createReadStream('path/to/archive.zip')
   });
 ```
 
-Or pipe the output of unzip.Parse() to fstream
+### Parse zip by piping entries downstream
 
-```javascript
-var readStream = fs.createReadStream('path/to/archive.zip');
-var writeStream = fstream.Writer('output/path');
+If you `pipe` from unzipper the downstream components will receive each `entry` for further processing.   This allows for clean pipelines transforming zipfiles into unzipped data.
 
-readStream
-  .pipe(unzip.Parse())
-  .pipe(writeStream)
+Example using `stream.Transform`:
+
+```js
+fs.createReadStream('path/to/archive.zip')
+  .pipe(unzipper.Parse())
+  .pipe(stream.Transform({
+    objectMode: true,
+    transform: function(entry,e,cb) {
+      var filePath = entry.path;
+      var type = entry.type; // 'Directory' or 'File'
+      var size = entry.size;
+      if (filePath === "this IS the file I'm looking for") {
+        entry.pipe(fs.createWriteStream('output/path'))
+          .on('finish',cb);
+      } else {
+        entry.autodrain();
+        cb();
+      }
+    }
+  }
+  }));
 ```
+
 
 ## License
 
 (The MIT License)
 
+Copyright (c) 2017 Michal Hruby
 Copyright (c) 2012 - 2013 Near Infinity Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining
