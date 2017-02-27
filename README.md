@@ -2,7 +2,7 @@
 
 Streaming cross-platform unzip tool written in node.js.
 
-This package is based on [unzip](https://github.com/EvanOxfeld/node-unzip) and provides simple APIs similar to [node-tar](https://github.com/isaacs/node-tar) for parsing and extracting zip files.
+This package is based on [unzip](https://github.com/EvanOxfeld/node-unzip) (and its fork [unzipper](https://github.com/ZJONSSON/node-unzipper)) and provides simple APIs for parsing and extracting zip files. It uses rewritten streaming engine which allows it to process also files which would fail with unzip.
 There are no added compiled dependencies - inflation is handled by node.js's built in zlib support.
 
 Please note that the zip file format isn't really meant to be processed by streaming, though this library should succeed in most cases, if you do have complete zip file available, you should consider using other libraries which read zip files from the end - as originally intended.
@@ -70,3 +70,7 @@ fs.createReadStream('path/to/archive.zip').pipe(unzip.Extract({ path: 'output/pa
 ```
 
 Extract emits the 'finish' (also 'close' for compatibility with unzip) event once the zip's contents have been fully extracted to disk.
+
+### What's missing?
+
+Currently only ZIP files up to version 2.1 are supported - which means no Zip64 support. There's also no support for encrypted (password protected) zips, or symlinks.
