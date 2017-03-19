@@ -1,6 +1,6 @@
 {
   "name": "unzip-stream",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Unzip cross-platform streaming API compatible with fstream",
   "author": "Michal Hruby <michal.mhr@gmail.com>",
   "maintainers": [
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhr3/node-unzip.git"
+    "url": "https://github.com/mhr3/unzip-stream.git"
   },
   "license": "MIT",
   "dependencies": {
