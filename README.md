@@ -10,7 +10,7 @@ Please note that the zip file format isn't really meant to be processed by strea
 ## Installation
 
 ```bash
-$ npm install unzip-stream
+$ npm install https://github.com/xJeneKx/unzip.git --save
 ```
 
 ## Quick Examples
@@ -70,7 +70,3 @@ fs.createReadStream('path/to/archive.zip').pipe(unzip.Extract({ path: 'output/pa
 ```
 
 Extract emits the 'finish' (also 'close' for compatibility with unzip) event once the zip's contents have been fully extracted to disk.
-
-### What's missing?
-
-Currently only ZIP files up to version 2.1 are supported - which means no Zip64 support. There's also no support for encrypted (password protected) zips, or symlinks.
