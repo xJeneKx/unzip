@@ -10,7 +10,7 @@ Please note that the zip file format isn't really meant to be processed by strea
 ## Installation
 
 ```bash
-$ npm install https://github.com/xJeneKx/unzip.git --save
+$ npm install https://github.com/xJeneKx/unzip --save
 ```
 
 ## Quick Examples

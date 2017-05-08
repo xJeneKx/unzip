@@ -1,5 +1,5 @@
 {
-  "name": "unzip-stream",
+  "name": "unzip",
   "version": "0.1.2",
   "description": "Unzip cross-platform streaming API compatible with fstream",
   "author": "Michal Hruby <michal.mhr@gmail.com>",
